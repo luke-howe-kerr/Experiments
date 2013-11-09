@@ -1,0 +1,12 @@
+C++
+
+- Expands on cash register program
+- Enter starting cash, print ending cash in register, etc.
+- Allow entering tax rate (ask this once at startup)
+- Allow for entry of multiple items in a single order
+- Enter a description of each item
+- When no more items to enter, print a list of all item descriptions and prices in this order
+- Print subtotal, tax, and total (i.e., subtotal + tax)
+- Allow canceling of an order
+- Allow a gift message with the order
+
