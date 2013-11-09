@@ -2,13 +2,13 @@
 #include <string>
 using namespace std;
 
-int main ()
+int main (int argc, char *argv[])
 {
-    double startCash, price, cash, change, sales;
+    double registerCash, price, cash, change, sales;
     string answer;
     bool error;
     cout << "How much money is in the cash register?" << endl;
-    cin >> startCash;
+    cin >> registerCash;
     
     do {
         cout << "What is the price of the item?" << endl;
@@ -21,12 +21,15 @@ int main ()
             cin >> cash;
             change = cash - price;
             
-            if (change > startCash) {
-                cout << "ERROR!! Not enough change in the cash register!" << endl;
+            if (cash < price) {
+                cerr << "Not enough payment!" << endl;
+                error = true;
+            } else if (change > registerCash) {
+                cerr << "ERROR!! Not enough change in the cash register!" << endl;
                 error = true;
             } else {
                 cout << "Your change is $" << change << endl;
-                startCash -= change;
+                registerCash += price;
                 error = false;
             }
         } while (error);
@@ -41,7 +44,7 @@ int main ()
         
     } while (sales);
     
-    cout << "The final amount of money in the cash register is $" << startCash << endl;
+    cout << "The final amount of money in the cash register is $" << registerCash << endl;
     
     return 0;
 }
