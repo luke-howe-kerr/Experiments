@@ -1,5 +1,8 @@
 #include <iostream>
 #include <string>
+
+#include "luke.h"
+
 using namespace std;
 
 int main (int argc, char *argv[])
@@ -7,6 +10,9 @@ int main (int argc, char *argv[])
     double registerCash, price, cash, change, sales;
     string answer;
     bool error;
+    
+    luke();
+    
     cout << "How much money is in the cash register?" << endl;
     cin >> registerCash;
     
