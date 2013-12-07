@@ -2,8 +2,6 @@
 #include <string>
 #include <vector>
 
-#include "luke.h"
-
 using namespace std;
 
 struct order {
@@ -14,11 +12,9 @@ struct order {
 
 int main (int argc, char *argv[])
 {
-    double registerCash, price, cash, change, tax, total, subtotal = 0;
+    double registerCash, price, cash, change, tax, total, subtotal;
     string answer, description, giftyn, message;
-    bool error = true, sales, cancel = false, order;
-    
-    luke();
+    bool error, sales, cancel = false, order;
     
     cout << "How much money is in the cash register?" << endl;
     cin >> registerCash;
@@ -30,13 +26,20 @@ int main (int argc, char *argv[])
     
     do {
         cancel = false;
+        subtotal = 0;
+        error = true;
         do {
             cout << "What is the price of the item?" << endl;
             cin >> price;
             order1.listprices.push_back(price);
             subtotal += price;
-            cout << "Item description: " << endl;
-            cin >> description;
+            do {
+                cout << "Item description: " << endl;
+                cin >> description;
+                if (description == "") {
+                    cout << "Error! No input! Please enter an item description:" << endl;
+                }
+            } while (description == "");
             order1.list.push_back(description);
         
             cout << "Is there another item? y or n (c to cancel the order)" << endl;
@@ -56,7 +59,7 @@ int main (int argc, char *argv[])
             if ("y" == giftyn || "Y" == giftyn) {
                 cout << "Enter your message:" << endl;
                 cin >> message;
-                strcpy(order1.gmessage, message);
+                order1.gmessage = message;
             }
             
             
