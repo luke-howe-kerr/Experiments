@@ -10,16 +10,51 @@ struct order {
     string gmessage;
 } order1;
 
+bool AskIfYes(string question)
+{
+    bool ret;
+    string answer;
+    cout << question << endl;
+    do {
+        cout<< "Enter y or n: ";
+        cin >> answer;
+    } while ("y" != answer && "Y" != answer && "n" != answer && "N" != answer);
+
+    if ("y" == answer || "Y" == answer) {
+        ret = true;
+    }	else {
+        ret = false;
+    }
+
+    return ret;
+}
+
+double GetPositiveDouble (string prompt, string errorMessage)
+{
+  double input;
+  do {
+    cout << prompt << endl;
+    cin >> input;
+    if (input > 0) {
+      break;
+    }
+    cout << errorMessage;
+  } while (1);
+  return input;
+}
+
 int main (int argc, char *argv[])
 {
     double registerCash, price, cash, change, tax, total, subtotal;
     string answer, description, giftyn, message;
     bool error, sales, cancel = false, order;
+  
+    registerCash = GetPositiveDouble("How much money is in the cash register?",
+				     "You must have some positive money in the register!");
     
-    cout << "How much money is in the cash register?" << endl;
-    cin >> registerCash;
-    cout << "What is the tax rate? (in percent)" << endl;
-    cin >> tax;
+    tax = GetPositiveDouble("Enter the tax rate: (in percent)",
+			    "Error! Must input a positive tax value!");
+
     tax = tax/100;
     
     cout << "The first order." << endl << endl;
@@ -36,10 +71,10 @@ int main (int argc, char *argv[])
             do {
                 cout << "Item description: " << endl;
                 cin >> description;
-                if (description == "") {
+                if (description.empty()) {
                     cout << "Error! No input! Please enter an item description:" << endl;
                 }
-            } while (description == "");
+            } while (description.empty());
             order1.list.push_back(description);
         
             cout << "Is there another item? y or n (c to cancel the order)" << endl;
@@ -79,7 +114,7 @@ int main (int argc, char *argv[])
             //If you input anything other than an integer it creates an infinite loop. Why is cin not working?
             change = cash - total;
         
-            if (cash < price) {
+            if (cash < total) {
                 cerr << "Not enough payment!" << endl;
                 error = true;
             } else if (change > registerCash) {
@@ -87,7 +122,7 @@ int main (int argc, char *argv[])
                 error = true;
             } else {
                 cout << "Your change is $" << change << endl;
-                registerCash += price;
+                registerCash += total;
                 error = false;
             }
         }
