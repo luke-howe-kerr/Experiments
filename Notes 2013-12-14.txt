@@ -24,3 +24,29 @@ C++ homework:
 - have an optional gift message per item
 - cin only picks up the first word with strings - FIX!
 - truncate the tax to two decimal places
+- what does hci stand for
+- ask Mr. Baar about the research question
+
+- design and run several experiments to determine distance from the
+raspberry pi that the iPhones will be detected
+	  - line of sight distance tests
+	    	 - 0, 5, 10, etc. until it cannot be detected anymore
+	  - same as above but with different orientations of the Pi
+	  (all 4)
+	  - test different heights
+	  - repeat line of sight through wall - move both the phone
+	  and the Pi
+	  - figure out materials of the walls we are testing
+	  - inside and outside - different locations (doors, windows,
+	  walls, etc.)
+	  - types of data:
+	    	  - signal strength
+	  	  - only ID specific phones
+	  
+	  - motion tests
+	    	   - start out of range and walk within 1 ft of it
+		   - repeat for 5ft, 10ft, etc. until it cannot be detected
+		     	    	- in a large open space
+		   - repeat in-home
+
+	  - upstairs vs. downstairs
