@@ -45,17 +45,17 @@ double GetPositiveDouble (string prompt, string errorMessage)
 
 int main (int argc, char *argv[])
 {
-    double registerCash, price, cash, change, tax, total, subtotal;
+  double registerCash, price, cash, change, tax, total, subtotal, taxRate;
     string answer, description, giftyn, message;
     bool error, sales, cancel = false, order;
   
     registerCash = GetPositiveDouble("How much money is in the cash register?",
 				     "You must have some positive money in the register!");
     
-    tax = GetPositiveDouble("Enter the tax rate: (in percent)",
+    taxRate = GetPositiveDouble("Enter the tax rate: (in percent)",
 			    "Error! Must input a positive tax value!");
 
-    tax = tax/100;
+    taxRate = taxRate/100;
     
     cout << "The first order." << endl << endl;
     
@@ -101,7 +101,7 @@ int main (int argc, char *argv[])
             for (int ii = 0; ii < order1.list.size(); ii++) {
                 cout << endl << order1.list[ii] << endl << order1.listprices[ii] << endl << "Gift Message:" << endl << order1.gmessage << endl;
             }
-            tax *= subtotal;
+            tax = taxRate * subtotal;
             total = subtotal + tax;
             cout << "Subtotal:\t" << subtotal << endl;
             cout << "Tax:\t" << tax << endl;
