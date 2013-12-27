@@ -17,14 +17,14 @@ Emacs Notes:
 - ctrl y (paste)
 
 C++ homework:
-- use GetPositiveDouble wherever necessary
-- use ask-if-yes wherever relevant
+- *use GetPositiveDouble wherever necessary
+- *use ask-if-yes wherever relevant
 - *fix the math bug with the total register cash
-- create a GetNonEmptyString function and apply wherever necessary
-- have an optional gift message per item
+- *create a GetNonEmptyString function and apply wherever necessary
+- *have an optional gift message per item
 - cin only picks up the first word with strings - FIX!
-- truncate the tax to two decimal places
-- what does hci stand for
+- *truncate the tax to two decimal places
+- *what does hci stand for
 - ask Mr. Baar about the research question
 
 - design and run several experiments to determine distance from the
@@ -48,5 +48,9 @@ raspberry pi that the iPhones will be detected
 		   - repeat for 5ft, 10ft, etc. until it cannot be detected
 		     	    	- in a large open space
 		   - repeat in-home
+		   - Speeds
+			- Slow, walk, run
 
 	  - upstairs vs. downstairs
+
+Make stick-and-ball diagrams of each experiment

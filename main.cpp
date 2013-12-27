@@ -7,10 +7,10 @@ using namespace std;
 struct order {
     vector<string> list;
     vector<double> listprices;
-    string gmessage;
+    vector<string> gmessage;
 } order1;
 
-bool AskIfYes(string question)
+bool AskIfYes (string question)
 {
     bool ret;
     string answer;
@@ -43,17 +43,31 @@ double GetPositiveDouble (string prompt, string errorMessage)
   return input;
 }
 
+string GetNonEmptyString (string prompt, string errorMessage)
+{
+  string input;
+  do {
+    cout << prompt << endl;
+    cin >> input;
+    if (!input.empty()) {
+      break;
+    }
+    cout << errorMessage;
+  } while (1);
+  return input;
+}
+
 int main (int argc, char *argv[])
 {
-  double registerCash, price, cash, change, tax, total, subtotal, taxRate;
-    string answer, description, giftyn, message;
-    bool error, sales, cancel = false, order;
+    double registerCash, price, cash, change, tax, total, subtotal, taxRate;
+    string answer, description, message;
+    bool error, sales, cancel = false, order, giftyn;
   
     registerCash = GetPositiveDouble("How much money is in the cash register?",
-				     "You must have some positive money in the register!");
+                                     "You must have some positive money in the register!");
     
     taxRate = GetPositiveDouble("Enter the tax rate: (in percent)",
-			    "Error! Must input a positive tax value!");
+                                "Error! Must input a positive tax value!");
 
     taxRate = taxRate/100;
     
@@ -64,20 +78,24 @@ int main (int argc, char *argv[])
         subtotal = 0;
         error = true;
         do {
-            cout << "What is the price of the item?" << endl;
-            cin >> price;
+            price = GetPositiveDouble("What is the price of the item?",
+                                      "You must input a positive price!");
             order1.listprices.push_back(price);
             subtotal += price;
-            do {
-                cout << "Item description: " << endl;
-                cin >> description;
-                if (description.empty()) {
-                    cout << "Error! No input! Please enter an item description:" << endl;
-                }
-            } while (description.empty());
+            description = GetNonEmptyString ("Item Description:",
+					     "Error! No input!");
             order1.list.push_back(description);
+
+            giftyn = AskIfYes("Do you want to include a gift message?");
+            if (giftyn) {
+	        message = GetNonEmptyString ("Enter your message:",
+					     "Error! No input!");
+                order1.gmessage.push_back("Gift Message:\t" + message);
+            } else {
+	        order1.gmessage.push_back("");
+	    }
         
-            cout << "Is there another item? y or n (c to cancel the order)" << endl;
+            cout << "Is there another item? y or n (Enter c to cancel)" << endl;
             cin >> answer;
             if ("y" == answer || "Y" == answer) {
                 sales = true;
@@ -89,29 +107,20 @@ int main (int argc, char *argv[])
         } while (sales && !cancel);
         
         if (!cancel) {
-            cout << "Do you want to include a gift message? y or n" << endl;
-            cin >> giftyn;
-            if ("y" == giftyn || "Y" == giftyn) {
-                cout << "Enter your message:" << endl;
-                cin >> message;
-                order1.gmessage = message;
-            }
-            
-            
             for (int ii = 0; ii < order1.list.size(); ii++) {
-                cout << endl << order1.list[ii] << endl << order1.listprices[ii] << endl << "Gift Message:" << endl << order1.gmessage << endl;
+                cout << endl << order1.list[ii] << endl << order1.listprices[ii] << endl << order1.gmessage[ii] << endl;
             }
-            tax = taxRate * subtotal;
+            int taxx = (taxRate * subtotal) * 100;
+            tax = taxx/100;
             total = subtotal + tax;
             cout << "Subtotal:\t" << subtotal << endl;
             cout << "Tax:\t" << tax << endl;
-            cout << "Total:\t" << total << endl;
+            cout << "Total:\t" << total << endl << endl << endl;
         }
         
         while (error && !cancel) {
-            cout << "Input the customer's cash payment:" << endl;
-            cin >> cash;
-            //If you input anything other than an integer it creates an infinite loop. Why is cin not working?
+	    cash = GetPositiveDouble ("Input the customer's cash payment:",
+                                  "Error! No input!");
             change = cash - total;
         
             if (cash < total) {
@@ -127,13 +136,7 @@ int main (int argc, char *argv[])
             }
         }
         
-        cout << "Is there another order? y or n" << endl;
-        cin >> answer;
-        if ("y" == answer || "Y" == answer) {
-            order = true;
-        } else {
-            order = false;
-        }
+        order = AskIfYes ("Is there another order?");
     } while (order);
     
     cout << "The final amount of money in the cash register is $" << registerCash << endl;
