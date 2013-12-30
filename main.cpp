@@ -48,11 +48,12 @@ string GetNonEmptyString (string prompt, string errorMessage)
   string input;
   do {
     cout << prompt << endl;
-    cin >> input;
+    getline (cin, input);
+#For some reason, getline is not allowing input during the first run of this loop 
     if (!input.empty()) {
       break;
     }
-    cout << errorMessage;
+    cout << errorMessage << endl;
   } while (1);
   return input;
 }
