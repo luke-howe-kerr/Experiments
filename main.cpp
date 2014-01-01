@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <sstream>
 
 using namespace std;
 
@@ -17,7 +18,7 @@ bool AskIfYes (string question)
     cout << question << endl;
     do {
         cout<< "Enter y or n: ";
-        cin >> answer;
+        getline (cin, answer);
     } while ("y" != answer && "Y" != answer && "n" != answer && "N" != answer);
 
     if ("y" == answer || "Y" == answer) {
@@ -31,16 +32,18 @@ bool AskIfYes (string question)
 
 double GetPositiveDouble (string prompt, string errorMessage)
 {
-  double input;
+  string inputString;
+  double inputDbl;
   do {
     cout << prompt << endl;
-    cin >> input;
-    if (input > 0) {
+    getline (cin, inputString);
+    stringstream(inputString) >> inputDbl;
+    if (inputDbl > 0) {
       break;
     }
     cout << errorMessage;
   } while (1);
-  return input;
+  return inputDbl;
 }
 
 string GetNonEmptyString (string prompt, string errorMessage)
@@ -49,7 +52,6 @@ string GetNonEmptyString (string prompt, string errorMessage)
   do {
     cout << prompt << endl;
     getline (cin, input);
-#For some reason, getline is not allowing input during the first run of this loop 
     if (!input.empty()) {
       break;
     }
@@ -97,7 +99,7 @@ int main (int argc, char *argv[])
 	    }
         
             cout << "Is there another item? y or n (Enter c to cancel)" << endl;
-            cin >> answer;
+            getline (cin, answer);
             if ("y" == answer || "Y" == answer) {
                 sales = true;
             } else if ("c" == answer || "C" == answer) {
@@ -106,8 +108,10 @@ int main (int argc, char *argv[])
                 sales = false;
             }
         } while (sales && !cancel);
-        
-        if (!cancel) {
+
+	if (cancel) {
+	    cout << "Order canceled!" << endl;
+	} else {
             for (int ii = 0; ii < order1.list.size(); ii++) {
                 cout << endl << order1.list[ii] << endl << order1.listprices[ii] << endl << order1.gmessage[ii] << endl;
             }
