@@ -5,12 +5,14 @@
 
 using namespace std;
 
+//Order contains the lists of item descriptions, prices, and gft messages (if applicable)
 struct order {
     vector<string> list;
     vector<double> listprices;
     vector<string> gmessage;
 } order1;
 
+//AskIfYes outputs a yes or no question to the user and determines if the answer is a yes or a no
 bool AskIfYes (string question)
 {
     bool ret;
@@ -30,6 +32,7 @@ bool AskIfYes (string question)
     return ret;
 }
 
+//GetPositiveDouble simply ensures that the user does not input a negative number or 0
 double GetPositiveDouble (string prompt, string errorMessage)
 {
   string inputString;
@@ -41,11 +44,12 @@ double GetPositiveDouble (string prompt, string errorMessage)
     if (inputDbl > 0) {
       break;
     }
-    cout << errorMessage;
+    cerr << errorMessage;
   } while (1);
   return inputDbl;
 }
 
+//GetNonEmptyString ensures that when asked for a string, the user does not leave the answer blank
 string GetNonEmptyString (string prompt, string errorMessage)
 {
   string input;
@@ -55,7 +59,7 @@ string GetNonEmptyString (string prompt, string errorMessage)
     if (!input.empty()) {
       break;
     }
-    cout << errorMessage << endl;
+    cerr << errorMessage << endl;
   } while (1);
   return input;
 }
@@ -65,21 +69,24 @@ int main (int argc, char *argv[])
     double registerCash, price, cash, change, tax, total, subtotal, taxRate;
     string answer, description, message;
     bool error, sales, cancel = false, order, giftyn;
-  
+
     registerCash = GetPositiveDouble("How much money is in the cash register?",
                                      "You must have some positive money in the register!");
-    
+
     taxRate = GetPositiveDouble("Enter the tax rate: (in percent)",
                                 "Error! Must input a positive tax value!");
 
     taxRate = taxRate/100;
-    
+
     cout << "The first order." << endl << endl;
-    
+
+    //The first loop contains each order that is run through the register
     do {
         cancel = false;
         subtotal = 0;
         error = true;
+
+	//This loop acquires the price of the item, its description, and an optional gift message
         do {
             price = GetPositiveDouble("What is the price of the item?",
                                       "You must input a positive price!");
@@ -109,6 +116,7 @@ int main (int argc, char *argv[])
             }
         } while (sales && !cancel);
 
+	//Either prints out a cancelled message or the list of items and the order totals
 	if (cancel) {
 	    cout << "Order canceled!" << endl;
 	} else {
@@ -122,10 +130,11 @@ int main (int argc, char *argv[])
             cout << "Tax:\t" << tax << endl;
             cout << "Total:\t" << total << endl << endl << endl;
         }
-        
+
+	//Accepts and processes the customer's cash payment
         while (error && !cancel) {
 	    cash = GetPositiveDouble ("Input the customer's cash payment:",
-                                  "Error! No input!");
+				      "Error! No input!");
             change = cash - total;
         
             if (cash < total) {
